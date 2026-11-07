@@ -10,33 +10,74 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CheckRouteImport } from './routes/check'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as SafetyRouteImport } from './routes/safety'
+import { Route as ResultsScanIdRouteImport } from './routes/results.$scanId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckRoute = CheckRouteImport.update({
+  id: '/check',
+  path: '/check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafetyRoute = SafetyRouteImport.update({
+  id: '/safety',
+  path: '/safety',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResultsScanIdRoute = ResultsScanIdRouteImport.update({
+  id: '/results/$scanId',
+  path: '/results/$scanId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/check': typeof CheckRoute
+  '/dashboard': typeof DashboardRoute
+  '/safety': typeof SafetyRoute
+  '/results/$scanId': typeof ResultsScanIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/check': typeof CheckRoute
+  '/dashboard': typeof DashboardRoute
+  '/safety': typeof SafetyRoute
+  '/results/$scanId': typeof ResultsScanIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/check': typeof CheckRoute
+  '/dashboard': typeof DashboardRoute
+  '/safety': typeof SafetyRoute
+  '/results/$scanId': typeof ResultsScanIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/check' | '/dashboard' | '/safety' | '/results/$scanId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/check' | '/dashboard' | '/safety' | '/results/$scanId'
+  id:
+    '__root__' | '/' | '/check' | '/dashboard' | '/safety' | '/results/$scanId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CheckRoute: typeof CheckRoute
+  DashboardRoute: typeof DashboardRoute
+  SafetyRoute: typeof SafetyRoute
+  ResultsScanIdRoute: typeof ResultsScanIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +89,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/check': {
+      id: '/check'
+      path: '/check'
+      fullPath: '/check'
+      preLoaderRoute: typeof CheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safety': {
+      id: '/safety'
+      path: '/safety'
+      fullPath: '/safety'
+      preLoaderRoute: typeof SafetyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/results/$scanId': {
+      id: '/results/$scanId'
+      path: '/results/$scanId'
+      fullPath: '/results/$scanId'
+      preLoaderRoute: typeof ResultsScanIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CheckRoute: CheckRoute,
+  DashboardRoute: DashboardRoute,
+  SafetyRoute: SafetyRoute,
+  ResultsScanIdRoute: ResultsScanIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
