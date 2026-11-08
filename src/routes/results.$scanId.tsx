@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, BadgeCheck, CircleAlert, Copy, ExternalLink, LockKeyhole, ShieldAlert, ShieldCheck, TriangleAlert } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, CircleAlert, LockKeyhole, ShieldAlert, ShieldCheck, TriangleAlert } from "lucide-react";
 
 import { SiteLayout } from "@/components/jobshield/site-layout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { getRiskLevel, offerTypes, riskLabels, safeReadScans, type DemoScan, type RiskLevel } from "@/lib/jobshield";
+import { demoHistory, getRiskLevel, offerTypes, riskLabels, safeReadScans, type DemoScan, type RiskLevel } from "@/lib/jobshield";
 
 export const Route = createFileRoute("/results/$scanId")({
   head: () => ({
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/results/$scanId")({
 
 const themes: Record<RiskLevel, { title: string; action: string; style: string; Icon: typeof CircleAlert }> = {
   high: { title: "Several warning signs", action: "Pause. Do not pay or share private information. Verify this employer independently first.", style: "text-destructive bg-destructive-soft/45 border-destructive/25", Icon: ShieldAlert },
-  guarded: { title: "Take a closer look", action: "Slow down and confirm who contacted you through the company’s official website or careers page.", style: "text-warning bg-warning/10 border-warning/25", Icon: TriangleAlert },
+  medium: { title: "Take a closer look", action: "Slow down and confirm who contacted you through the company’s official website or careers page.", style: "text-warning bg-warning/10 border-warning/25", Icon: TriangleAlert },
   low: { title: "Fewer example phrases found", action: "Still verify the employer and the opportunity independently. No demo score can guarantee that an offer is real.", style: "text-positive bg-positive/10 border-positive/25", Icon: ShieldCheck },
 };
 
@@ -32,7 +32,7 @@ function ResultPage() {
   const { scanId } = Route.useParams();
   const [scan, setScan] = useState<DemoScan | null>(null);
   useEffect(() => {
-    setScan(safeReadScans().find((item) => item.id === scanId) ?? null);
+    setScan(safeReadScans().find((item) => item.id === scanId) ?? demoHistory.find((item) => item.id === scanId) ?? null);
   }, [scanId]);
 
   if (!scan) {
