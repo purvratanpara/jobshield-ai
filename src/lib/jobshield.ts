@@ -1,5 +1,5 @@
 export type OfferType = "job" | "internship" | "message";
-export type RiskLevel = "low" | "guarded" | "high";
+export type RiskLevel = "low" | "medium" | "high";
 export type DemoScan = {
   id: string;
   type: OfferType;
@@ -67,7 +67,7 @@ export const demoHistory: DemoScan[] = [
     company: "Unnamed recruiter",
     content: "An urgent message asks you to move to a private messaging app.",
     score: 64,
-    level: "guarded",
+    level: "medium",
     findings: ["Urgent deadline", "Request to use a private messaging app"],
     positiveSignals: [],
     date: "Example scan · demo data",
@@ -105,13 +105,13 @@ export const safeSaveScans = (scans: DemoScan[]): boolean => {
 
 export const getRiskLevel = (score: number): RiskLevel => {
   if (score >= 65) return "high";
-  if (score >= 38) return "guarded";
+  if (score >= 38) return "medium";
   return "low";
 };
 
 export const riskLabels: Record<RiskLevel, string> = {
   low: "Fewer signs detected",
-  guarded: "Proceed carefully",
+  medium: "Medium risk — proceed carefully",
   high: "Several warning signs",
 };
 

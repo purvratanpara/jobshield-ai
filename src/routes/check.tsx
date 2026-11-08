@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState, type FormEvent } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, ClipboardPaste, RotateCcw, ScanSearch, ShieldAlert, ShieldCheck, Sparkles } from "lucide-react";
 
 import { SiteLayout } from "@/components/jobshield/site-layout";
@@ -39,7 +39,7 @@ function OfferCheckPage() {
     setNotice("A sample offer is ready. Its result will be marked as demo data.");
   }
 
-  function analyze(event: React.FormEvent<HTMLFormElement>) {
+  function analyze(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const cleaned = message.trim();
     if (cleaned.length < 25) {
@@ -81,16 +81,18 @@ function OfferCheckPage() {
             <h2 className="mb-3 text-sm font-semibold text-foreground">What would you like to check?</h2>
             <div className="grid grid-cols-3 gap-2" role="group" aria-label="Offer type">
               {types.map((option) => (
-                <button
+                <Button
                   key={option}
                   type="button"
+                  variant="outline"
+                  size="default"
                   aria-pressed={type === option}
                   onClick={() => { setType(option); setMessage(""); setError(""); setNotice(""); }}
-                  className={cn("min-h-20 rounded-md border px-3 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring", type === option ? "border-primary/60 bg-primary/10 text-foreground" : "border-border bg-card/70 text-muted-foreground hover:border-primary/40 hover:text-foreground")}
+                  className={cn("h-auto min-h-20 justify-start whitespace-normal rounded-md px-3 py-3 text-left shadow-none", type === option ? "border-primary/60 bg-primary/10 text-foreground hover:bg-primary/10" : "border-border bg-card/70 text-muted-foreground hover:border-primary/40 hover:bg-card hover:text-foreground")}
                 >
-                  <span className="block text-sm font-semibold">{offerTypes[option].shortLabel}</span>
-                  <span className="mt-1 block text-xs leading-4">{option === "message" ? "Email or text" : "Offer details"}</span>
-                </button>
+                  <span><span className="block text-sm font-semibold">{offerTypes[option].shortLabel}</span>
+                  <span className="mt-1 block text-xs font-normal leading-4">{option === "message" ? "Email or text" : "Offer details"}</span></span>
+                </Button>
               ))}
             </div>
             <p className="mt-3 text-xs text-muted-foreground">{offerTypes[type].description}</p>
@@ -142,7 +144,7 @@ function OfferCheckPage() {
                 <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-positive/10 text-positive"><ShieldCheck aria-hidden="true" className="size-4.5" /></span>
                 <div><h2 className="text-sm font-semibold text-foreground">Your decision is yours</h2><p className="mt-1.5 text-sm leading-6 text-muted-foreground">Avoid payments and requests for verification codes. Find the company's official careers page yourself.</p></div>
               </div>
-              <Button asChild variant="outline" className="mt-2"><a href="/safety">Read the student safety guide <ArrowRight aria-hidden="true" /></a></Button>
+              <Button asChild variant="outline" className="mt-2"><Link to="/safety">Read the student safety guide <ArrowRight aria-hidden="true" /></Link></Button>
             </div>
           </aside>
         </div>
