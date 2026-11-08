@@ -122,6 +122,7 @@ export function createDemoScan(content: string, type: OfferType): DemoScan {
     [/\b(guaranteed|instant|hired immediately|no interview|everyone accepted|no experience)\b/, "A guaranteed offer or hiring-without-an-interview claim", 22],
     [/\b(urgent|today|tonight|immediately|within 24 hours|expires tonight|act now)\b/, "Pressure to make a quick decision", 16],
     [/\b(telegram|whatsapp|signal|private message|personal account)\b/, "A move to a private or informal messaging channel", 14],
+    [/[\w.+-]+@(gmail|yahoo|outlook|hotmail|icloud)\.(com|net)/, "A recruiter is using a personal email service rather than a company email", 18],
     [/\b(password|one-time code|verification code|social security|passport number)\b/, "A request for private identity or account information", 30],
     [/\b(remote job|work from home|easy money|large salary|\$\s?\d{2,3},?\d{3})\b/, "An unusually attractive pay or work-from-home claim", 8],
   ];
@@ -142,6 +143,10 @@ export function createDemoScan(content: string, type: OfferType): DemoScan {
   if (/\b(official (company )?(email|website)|company careers page)\b/.test(normalized)) {
     positiveSignals.push("The message mentions an official company channel");
     score = Math.max(8, score - 8);
+  }
+  if (!/\b(company|inc\.?|corporation|careers page|official website|recruiter at)\b/.test(normalized)) {
+    findings.push("The message does not give clear company details");
+    score += 12;
   }
   if (findings.length === 0) {
     positiveSignals.push("This demo check did not match its example warning phrases");
