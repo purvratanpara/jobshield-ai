@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CheckRouteImport } from './routes/check'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as SafetyRouteImport } from './routes/safety'
+import { Route as SigninRouteImport } from './routes/signin'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ResultsScanIdRouteImport } from './routes/results.$scanId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +37,16 @@ const SafetyRoute = SafetyRouteImport.update({
   path: '/safety',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SigninRoute = SigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResultsScanIdRoute = ResultsScanIdRouteImport.update({
   id: '/results/$scanId',
   path: '/results/$scanId',
@@ -46,6 +58,8 @@ export interface FileRoutesByFullPath {
   '/check': typeof CheckRoute
   '/dashboard': typeof DashboardRoute
   '/safety': typeof SafetyRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/results/$scanId': typeof ResultsScanIdRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +67,8 @@ export interface FileRoutesByTo {
   '/check': typeof CheckRoute
   '/dashboard': typeof DashboardRoute
   '/safety': typeof SafetyRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/results/$scanId': typeof ResultsScanIdRoute
 }
 export interface FileRoutesById {
@@ -61,15 +77,38 @@ export interface FileRoutesById {
   '/check': typeof CheckRoute
   '/dashboard': typeof DashboardRoute
   '/safety': typeof SafetyRoute
+  '/signin': typeof SigninRoute
+  '/signup': typeof SignupRoute
   '/results/$scanId': typeof ResultsScanIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/check' | '/dashboard' | '/safety' | '/results/$scanId'
+  fullPaths:
+    | '/'
+    | '/check'
+    | '/dashboard'
+    | '/safety'
+    | '/signin'
+    | '/signup'
+    | '/results/$scanId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/check' | '/dashboard' | '/safety' | '/results/$scanId'
+  to:
+    | '/'
+    | '/check'
+    | '/dashboard'
+    | '/safety'
+    | '/signin'
+    | '/signup'
+    | '/results/$scanId'
   id:
-    '__root__' | '/' | '/check' | '/dashboard' | '/safety' | '/results/$scanId'
+    | '__root__'
+    | '/'
+    | '/check'
+    | '/dashboard'
+    | '/safety'
+    | '/signin'
+    | '/signup'
+    | '/results/$scanId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +116,8 @@ export interface RootRouteChildren {
   CheckRoute: typeof CheckRoute
   DashboardRoute: typeof DashboardRoute
   SafetyRoute: typeof SafetyRoute
+  SigninRoute: typeof SigninRoute
+  SignupRoute: typeof SignupRoute
   ResultsScanIdRoute: typeof ResultsScanIdRoute
 }
 
@@ -110,6 +151,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SafetyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/signin': {
+      id: '/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof SigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/results/$scanId': {
       id: '/results/$scanId'
       path: '/results/$scanId'
@@ -125,6 +180,8 @@ const rootRouteChildren: RootRouteChildren = {
   CheckRoute: CheckRoute,
   DashboardRoute: DashboardRoute,
   SafetyRoute: SafetyRoute,
+  SigninRoute: SigninRoute,
+  SignupRoute: SignupRoute,
   ResultsScanIdRoute: ResultsScanIdRoute,
 }
 export const routeTree = rootRouteImport
