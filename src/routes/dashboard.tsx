@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, ArrowRight, ChevronRight, Clock3, Filter, ScanSearch, ShieldAlert, ShieldCheck, Sparkles, Trash2 } from "lucide-react";
+import { Activity, ArrowRight, ChevronRight, Clock3, ScanSearch, ShieldAlert, ShieldCheck, Sparkles, Trash2 } from "lucide-react";
 
 import { SiteLayout } from "@/components/jobshield/site-layout";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 type FilterValue = "all" | "job" | "internship" | "message";
-const riskStyles: Record<RiskLevel, string> = { high: "border-destructive/25 bg-destructive-soft/40 text-destructive", guarded: "border-warning/25 bg-warning/10 text-warning", low: "border-positive/25 bg-positive/10 text-positive" };
+const riskStyles: Record<RiskLevel, string> = { high: "border-destructive/25 bg-destructive-soft/40 text-destructive", medium: "border-warning/25 bg-warning/10 text-warning", low: "border-positive/25 bg-positive/10 text-positive" };
 
 function DashboardPage() {
   const [savedScans, setSavedScans] = useState<DemoScan[]>([]);
@@ -83,7 +83,7 @@ function Summary({ icon, label, value, note }: { icon: React.ReactNode; label: s
 
 function ScanRow({ scan, sample = false }: { scan: DemoScan; sample?: boolean }) {
   return <article className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:gap-5">
-    <div className="flex min-w-0 flex-1 items-start gap-3"><span className={cn("mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-md", scan.level === "high" ? "bg-destructive-soft/55 text-destructive" : scan.level === "guarded" ? "bg-warning/10 text-warning" : "bg-positive/10 text-positive")}><ShieldCheck aria-hidden="true" className="size-4.5" /></span><div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><h3 className="text-sm font-semibold text-foreground">{scan.company}</h3><Badge variant="secondary" className="text-[0.65rem]">{offerTypes[scan.type].shortLabel}</Badge>{sample && <Badge variant="outline" className="border-warning/30 text-warning">EXAMPLE</Badge>}</div><p className="mt-1 truncate text-xs text-muted-foreground">{scan.content}</p><p className="mt-1 text-[0.68rem] text-muted-foreground">{sample ? "Sample scan · demo data" : scan.date}</p></div></div>
-    <div className="flex items-center justify-between gap-4 sm:w-[16rem] sm:justify-end"><span className="display-font text-lg font-semibold tabular-nums text-foreground">{scan.score}<span className="ml-0.5 text-xs font-normal text-muted-foreground">/100</span></span><span className={cn("min-w-28 rounded-md border px-2 py-1 text-center text-[0.65rem] font-medium", riskStyles[scan.level])}>{riskLabels[scan.level]}</span>{sample ? <Button variant="ghost" size="icon" aria-label="Open the example check page" asChild><Link to="/check"><ChevronRight aria-hidden="true" /></Link></Button> : <Button variant="ghost" size="icon" aria-label="Open saved check" asChild><Link to="/results/$scanId" params={{ scanId: scan.id }}><ChevronRight aria-hidden="true" /></Link></Button>}</div>
+    <div className="flex min-w-0 flex-1 items-start gap-3"><span className={cn("mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-md", scan.level === "high" ? "bg-destructive-soft/55 text-destructive" : scan.level === "medium" ? "bg-warning/10 text-warning" : "bg-positive/10 text-positive")}><ShieldCheck aria-hidden="true" className="size-4.5" /></span><div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><h3 className="text-sm font-semibold text-foreground">{scan.company}</h3><Badge variant="secondary" className="text-[0.65rem]">{offerTypes[scan.type].shortLabel}</Badge>{sample && <Badge variant="outline" className="border-warning/30 text-warning">EXAMPLE</Badge>}</div><p className="mt-1 truncate text-xs text-muted-foreground">{scan.content}</p><p className="mt-1 text-[0.68rem] text-muted-foreground">{sample ? "Sample scan · demo data" : scan.date}</p></div></div>
+    <div className="flex items-center justify-between gap-4 sm:w-[16rem] sm:justify-end"><span className="display-font text-lg font-semibold tabular-nums text-foreground">{scan.score}<span className="ml-0.5 text-xs font-normal text-muted-foreground">/100</span></span><span className={cn("min-w-28 rounded-md border px-2 py-1 text-center text-[0.65rem] font-medium", riskStyles[scan.level])}>{riskLabels[scan.level]}</span><Button variant="ghost" size="icon" aria-label={sample ? "View the example report" : "Open saved check"} asChild><Link to="/results/$scanId" params={{ scanId: scan.id }}><ChevronRight aria-hidden="true" /></Link></Button></div>
   </article>;
 }
