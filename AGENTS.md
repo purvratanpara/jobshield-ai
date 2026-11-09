@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## JobShield application design
+
+- Keep page modules in `src/routes`, reusable JobShield UI in `src/components/jobshield`, and demo-only phrase matching/browser history in the browser-safe `src/lib/jobshield.ts` helper; this keeps navigation discoverable and prevents sample reports from being presented as real AI or account-backed data.

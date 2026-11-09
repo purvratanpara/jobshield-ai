@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, BadgeCheck, CircleAlert, LockKeyhole, ShieldAlert, ShieldCheck, TriangleAlert } from "lucide-react";
 
@@ -36,7 +36,7 @@ function ResultPage() {
   }, [scanId]);
 
   if (!scan) {
-    return <SiteLayout><section className="page-shell min-h-[28rem] max-w-2xl py-16"><Badge variant="outline" className="mb-4 border-warning/35 text-warning">Results are stored in your browser</Badge><h1 className="display-font text-3xl font-semibold text-foreground">We couldn't open this example.</h1><p className="mt-3 leading-7 text-muted-foreground">The result may be missing, or browser storage may be turned off. You can run another demo check.</p><Button asChild className="mt-6"><Link to="/check">Check another message <ArrowRight aria-hidden="true" /></Link></Button></section></SiteLayout>;
+    return <SiteLayout><section className="page-shell min-h-[28rem] max-w-2xl py-16"><Badge variant="outline" className="mb-4 border-warning/35 text-warning">Results are stored in your browser</Badge><h1 className="display-font text-3xl font-semibold text-foreground">We couldn't open this example.</h1><p className="mt-3 leading-7 text-muted-foreground">The result may be missing, or browser storage may be turned off. Try another demo check or open an example report from your dashboard.</p><div className="mt-6 flex flex-wrap gap-3"><Button asChild><Link to="/check">Check another message <ArrowRight aria-hidden="true" /></Link></Button><Button variant="outline" asChild><Link to="/dashboard">View example scans</Link></Button></div></section></SiteLayout>;
   }
 
   const theme = themes[getRiskLevel(scan.score)];
@@ -55,7 +55,7 @@ function ResultPage() {
           <article className="rounded-md border border-border bg-card p-6 sm:p-8" aria-label={`Sample risk score ${scan.score} out of 100`}>
             <div className="flex items-start justify-between gap-3"><div><p className="text-sm font-medium text-muted-foreground">Demo risk score</p><p className="mt-1 text-xs text-muted-foreground">An illustrative phrase match, not a probability.</p></div><span className="rounded-md border border-warning/30 bg-warning/10 px-2 py-1 text-[0.65rem] font-semibold tracking-normal text-warning">EXAMPLE</span></div>
             <div className="my-7 flex justify-center">
-              <div className="risk-ring grid size-40 place-items-center rounded-full [--risk-progress:0%]" style={{ "--risk-progress": `${scan.score}%` } as React.CSSProperties}>
+              <div className="risk-ring grid size-40 place-items-center rounded-full [--risk-progress:0%]" style={{ "--risk-progress": `${scan.score}%` } as CSSProperties}>
                 <div className="grid size-32 place-content-center rounded-full bg-card text-center"><span className="display-font text-5xl font-semibold leading-none text-foreground">{scan.score}</span><span className="mt-1 text-xs text-muted-foreground">out of 100</span></div>
               </div>
             </div>
