@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Activity, ArrowRight, ChevronRight, Clock3, ScanSearch, ShieldAlert, ShieldCheck, Sparkles, Trash2 } from "lucide-react";
 
@@ -77,7 +77,7 @@ function DashboardPage() {
   );
 }
 
-function Summary({ icon, label, value, note }: { icon: React.ReactNode; label: string; value: string | number; note: string }) {
+function Summary({ icon, label, value, note }: { icon: ReactNode; label: string; value: string | number; note: string }) {
   return <div className="min-w-0 border-t border-border py-5"><div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">{icon}<span>{label}</span></div><p className="display-font mt-3 text-3xl font-semibold text-foreground">{value}</p><p className="mt-1 text-xs text-muted-foreground">{note}</p></div>;
 }
 

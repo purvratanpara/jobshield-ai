@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { ArrowUpRight, ShieldCheck, Menu, X } from "lucide-react";
 
@@ -24,7 +24,7 @@ export function Brand({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function SiteLayout({ children }: { children: React.ReactNode }) {
+export function SiteLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   return (

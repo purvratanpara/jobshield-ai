@@ -113,7 +113,7 @@ function OfferCheckPage() {
                   aria-describedby={error ? "message-error" : "message-help"}
                   placeholder="Paste a message you'd like to look at…"
                   rows={8}
-                  maxLength={5000}
+                  maxLength={4000}
                   className="min-h-52 resize-y border-border/90 bg-surface-soft text-sm leading-6 placeholder:text-muted-foreground/70"
                 />
                 <div className="mt-1.5 flex items-start justify-between gap-3 text-xs text-muted-foreground">
