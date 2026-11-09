@@ -57,7 +57,9 @@ function OfferCheckPage() {
       const scan = createDemoScan(cleaned, type);
       const saved = safeSaveScans([scan, ...safeReadScans()]);
       if (!saved) {
-        setNotice("Results can still be reviewed, but this browser cannot save previous demo scans.");
+        setNotice("This browser cannot save your demo report. Allow browser storage, then try again to open the report.");
+        setBusy(false);
+        return;
       }
       setBusy(false);
       void navigate({ to: "/results/$scanId", params: { scanId: scan.id } });
