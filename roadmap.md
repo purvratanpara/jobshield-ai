@@ -7,3 +7,4 @@
 - [ ] Verify navigation, primary interactions, mobile layout, tests, and preview diagnostics.
 - [ ] Live Supabase email auth, session persistence, per-user reports, RLS testing, and logout — waiting for the user's existing project to be connected via Project Settings → General → External Supabase so the correct database and policies can be inspected.
 - [ ] Live Gemini offer analysis via a secured Supabase function and AI response/error/rate-limit tests — waiting on that same Supabase project connection and its function deployment context; continue to keep all Gemini secrets server-side.
+- [ ] Review current Google Search Console and JobShield SEO/AI-search visibility; identify fixable technical issues and realistic keyword opportunities — waiting on publication/verification if no public property or GSC connection is available.
