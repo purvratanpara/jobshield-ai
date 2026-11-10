@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, LockKeyhole, ShieldCheck } from "lucide-react";
 
@@ -13,11 +13,22 @@ export function AuthPreview({ mode }: { mode: "signin" | "signup" }) {
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [ready, setReady] = useState(false);
   const signingUp = mode === "signup";
+
+  useEffect(() => setReady(true), []);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError("Enter a valid email address.");
+      return;
+    }
+    if (password.length < 8) {
+      setError("Use at least 8 characters for the password.");
+      return;
+    }
     if (signingUp && password !== confirm) {
       setError("Those passwords don’t match. Please check them and try again.");
       return;
@@ -33,12 +44,12 @@ export function AuthPreview({ mode }: { mode: "signin" | "signup" }) {
         <h1 className="display-font text-3xl font-semibold text-foreground">{signingUp ? "Create an account" : "Welcome back"}</h1>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">{signingUp ? "An account can keep your checks together once authentication is connected." : "Sign in to see your personal check history once authentication is connected."}</p>
 
-        <form onSubmit={submit} className="mt-7 space-y-4">
-          <div className="space-y-2"><Label htmlFor="account-email">Email address</Label><Input id="account-email" type="email" autoComplete="email" placeholder="you@example.com" required value={email} onChange={(event) => setEmail(event.target.value)} /></div>
-          <div className="space-y-2"><Label htmlFor="account-password">Password</Label><Input id="account-password" type="password" autoComplete={signingUp ? "new-password" : "current-password"} minLength={8} required value={password} onChange={(event) => setPassword(event.target.value)} /></div>
-          {signingUp && <div className="space-y-2"><Label htmlFor="account-password-confirm">Confirm password</Label><Input id="account-password-confirm" type="password" autoComplete="new-password" minLength={8} required value={confirm} onChange={(event) => setConfirm(event.target.value)} /></div>}
-          {error && <p role="alert" className="text-sm font-medium text-destructive">{error}</p>}
-          <Button type="submit" className="w-full">{signingUp ? "Create account preview" : "Sign-in preview"} <ArrowRight aria-hidden="true" /></Button>
+        <form onSubmit={submit} noValidate className="mt-7 space-y-4">
+          <div className="space-y-2"><Label htmlFor="account-email">Email address</Label><Input id="account-email" type="email" autoComplete="email" aria-invalid={error.includes("email address")} aria-describedby={error.includes("email address") ? "account-error" : undefined} placeholder="you@example.com" required value={email} onChange={(event) => setEmail(event.target.value)} /></div>
+          <div className="space-y-2"><Label htmlFor="account-password">Password</Label><Input id="account-password" type="password" autoComplete={signingUp ? "new-password" : "current-password"} minLength={8} aria-invalid={error.includes("8 characters") || error.includes("passwords don’t match")} required value={password} onChange={(event) => setPassword(event.target.value)} /></div>
+          {signingUp && <div className="space-y-2"><Label htmlFor="account-password-confirm">Confirm password</Label><Input id="account-password-confirm" type="password" autoComplete="new-password" minLength={8} aria-invalid={error.includes("passwords don’t match")} aria-describedby={error.includes("passwords don’t match") ? "account-error" : undefined} required value={confirm} onChange={(event) => setConfirm(event.target.value)} /></div>}
+          {error && <p id="account-error" role="alert" className="text-sm font-medium text-destructive">{error}</p>}
+          <Button type="submit" disabled={!ready} className="w-full">{signingUp ? "Create account preview" : "Sign-in preview"} <ArrowRight aria-hidden="true" /></Button>
           {message && <p role="status" className="rounded-md border border-warning/25 bg-warning/8 p-3 text-sm leading-6 text-warning">{message}</p>}
         </form>
 

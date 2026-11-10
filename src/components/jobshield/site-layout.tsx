@@ -45,9 +45,9 @@ export function SiteLayout({ children }: { children: ReactNode }) {
             ))}
           </nav>
           <div className="hidden items-center gap-2 sm:flex">
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/signin">Sign in</Link>
-            </Button>
+          <Button variant="ghost" size="sm" asChild>
+            <Link to="/signin">Sign in</Link>
+          </Button>
             <Button size="sm" asChild>
               <Link to="/signup">Get started <ArrowUpRight aria-hidden="true" /></Link>
             </Button>

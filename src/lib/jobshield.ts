@@ -124,7 +124,7 @@ export function createDemoScan(content: string, type: OfferType): DemoScan {
     [/\b(telegram|whatsapp|signal|private message|personal account)\b/, "A move to a private or informal messaging channel", 14],
     [/[\w.+-]+@(gmail|yahoo|outlook|hotmail|icloud)\.(com|net)/, "A recruiter is using a personal email service rather than a company email", 18],
     [/\b(password|one-time code|verification code|social security|passport number)\b/, "A request for private identity or account information", 30],
-    [/\b(remote job|work from home|easy money|large salary|\$\s?\d{2,3},?\d{3})\b/, "An unusually attractive pay or work-from-home claim", 8],
+    [/(?:\b(remote job|work from home|easy money|large salary)\b|\$\s?\d{2,3},?\d{3}\b)/, "An unusually attractive pay or work-from-home claim", 8],
   ];
   const findings: string[] = [];
   let score = 12;
