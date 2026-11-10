@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, ClipboardPaste, RotateCcw, ScanSearch, ShieldAlert, ShieldCheck, Sparkles } from "lucide-react";
 
@@ -32,6 +32,9 @@ function OfferCheckPage() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => setReady(true), []);
 
   function pasteExample() {
     setMessage(scannerExamples[type]);
@@ -123,7 +126,7 @@ function OfferCheckPage() {
                 {error && <p id="message-error" role="alert" className="mt-2 text-sm font-medium text-destructive">{error}</p>}
                 {notice && <p role="status" className="mt-2 text-sm text-warning">{notice}</p>}
               </div>
-              <Button type="submit" disabled={busy} className="h-11 w-full">
+              <Button type="submit" disabled={!ready || busy} className="h-11 w-full">
                 {busy ? <><span className="size-4 animate-spin rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground" /> Checking example message…</> : <>Show demo result <ArrowRight aria-hidden="true" /></>}
               </Button>
               <Button type="button" variant="ghost" size="sm" disabled={busy || !message} onClick={() => { setMessage(""); setError(""); setNotice(""); }} className="w-full text-muted-foreground"><RotateCcw aria-hidden="true" /> Clear message</Button>

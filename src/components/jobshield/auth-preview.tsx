@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, LockKeyhole, ShieldCheck } from "lucide-react";
 
@@ -13,7 +13,10 @@ export function AuthPreview({ mode }: { mode: "signin" | "signup" }) {
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [ready, setReady] = useState(false);
   const signingUp = mode === "signup";
+
+  useEffect(() => setReady(true), []);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -46,7 +49,7 @@ export function AuthPreview({ mode }: { mode: "signin" | "signup" }) {
           <div className="space-y-2"><Label htmlFor="account-password">Password</Label><Input id="account-password" type="password" autoComplete={signingUp ? "new-password" : "current-password"} minLength={8} aria-invalid={error.includes("8 characters") || error.includes("passwords don’t match")} required value={password} onChange={(event) => setPassword(event.target.value)} /></div>
           {signingUp && <div className="space-y-2"><Label htmlFor="account-password-confirm">Confirm password</Label><Input id="account-password-confirm" type="password" autoComplete="new-password" minLength={8} aria-invalid={error.includes("passwords don’t match")} aria-describedby={error.includes("passwords don’t match") ? "account-error" : undefined} required value={confirm} onChange={(event) => setConfirm(event.target.value)} /></div>}
           {error && <p id="account-error" role="alert" className="text-sm font-medium text-destructive">{error}</p>}
-          <Button type="submit" className="w-full">{signingUp ? "Create account preview" : "Sign-in preview"} <ArrowRight aria-hidden="true" /></Button>
+          <Button type="submit" disabled={!ready} className="w-full">{signingUp ? "Create account preview" : "Sign-in preview"} <ArrowRight aria-hidden="true" /></Button>
           {message && <p role="status" className="rounded-md border border-warning/25 bg-warning/8 p-3 text-sm leading-6 text-warning">{message}</p>}
         </form>
 
