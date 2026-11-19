@@ -84,6 +84,22 @@ function setUser(nextUser) {
   if (page === "results") loadReportFromHistory();
 }
 
+// supabase.functions.invoke() throws a FunctionsHttpError for non-2xx replies and
+// puts the real JSON body on error.context (a Response). Read our server's
+// message from it so users see "AI usage limit reached" instead of a generic error.
+async function getFunctionErrorMessage(error) {
+  try {
+    const response = error?.context;
+    if (response && typeof response.json === "function") {
+      const body = await response.json();
+      if (body?.error) return String(body.error);
+    }
+  } catch {
+    /* response body was not JSON; fall through to the default message */
+  }
+  return error?.message || "Analysis failed. Please try again.";
+}
+
 function riskClass(level) { return String(level || "Low").toLowerCase(); }
 function listHTML(items, fallback) {
   if (!Array.isArray(items) || !items.length) return `<p>${escapeHTML(fallback)}</p>`;
@@ -185,7 +201,7 @@ if (page === "scan") {
       const { data, error } = await supabase.functions.invoke("analyze-offer", {
         body: { offerText: context, companyName, offerType: $("offerType").value }
       });
-      if (error) throw error;
+      if (error) throw new Error(await getFunctionErrorMessage(error));
       if (!data?.report) throw new Error(data?.error || "Unexpected response from the AI service.");
       sessionStorage.setItem("jobshieldLatestReport", JSON.stringify(data.report));
       window.location.href = "results.html";
