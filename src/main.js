@@ -332,6 +332,8 @@ async function loadHistory() {
   }
 }
 
+$("refreshHistoryBtn")?.addEventListener("click", loadHistory);
+
 // Company verification page — this is a checklist, not a registry lookup.
 $("verifyForm")?.addEventListener("submit", (event) => {
   event.preventDefault();
