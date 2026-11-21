@@ -4,5 +4,6 @@ dist/
 .env.*
 !.env.example
 .supabase/
+supabase/.temp/
 .DS_Store
 Thumbs.db
